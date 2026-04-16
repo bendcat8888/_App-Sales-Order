@@ -1,4 +1,4 @@
-# Sales Order Management System (Solvang)
+# Sales Order App & Management System (Solvang)
 
 A Streamlit-based Sales Order (SO) Management application for Solvang that supports product browsing, cart-based ordering, multi-step approvals, finance review, attachments, and automated email notifications/reminders.
 
