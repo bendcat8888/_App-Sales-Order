@@ -1,176 +1,94 @@
-# Sales Order App & Management System (Solvang)
+# 🛒 Sales Order & Management System (Solvang)
+**A Full-Stack E-Commerce & Workflow Automation Solution for Enterprise Logistics**
 
-A Streamlit-based Sales Order (SO) Management application for Solvang that supports product browsing, cart-based ordering, multi-step approvals, finance review, attachments, and automated email notifications/reminders.
+[![Python 3.12](https://img.shields.io/badge/Python-3.12-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://streamlit.io/)
+[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 
----
+## 🛠 Tech Stack
 
-## Highlights
-
-- **Product Catalog** with images
-- **Shopping Cart** + SKU-level Notes/Remarks
-- **Sales Orders** creation, status tracking, and audit trail
-- **Approval Workflow** (SGF → Admin Level 1 Ethical → Admin Level 2)
-- **Finance Review & Management** (filters, exports, review actions)
-- **Booking Requests** workflow (incl. reminders/auto-cancel via scheduler)
-- **Attachments** (images + PDFs) for orders/requests
-- **Email Notifications** + Admin “Notification Management” (toggle, CC list, logs)
-
----
-
-## Tech Stack
-
-- **Python + Streamlit**
-- **SQLite** database: `sales_order_inventory.db` (via `db_manager.py`)
-- Optional: **SQL Server sync** for products using `pyodbc` (ODBC driver required)
+| Category | Tools |
+| :--- | :--- |
+| **Frontend/UI** | **Streamlit** (Custom Cart UI, Multi-step Modals, Image Gallery) |
+| **Backend** | **Python 3.12** (Object-Oriented Database Management) |
+| **Database** | **SQLite** (Primary) + **MS SQL Server** (Product Sync via pyodbc) |
+| **Automation** | **Background Schedulers** (Automated Email Reminders & Order Expiry) |
+| **Communication** | **SMTP/SSL Integration** (Real-time Gmail notifications) |
+| **Deployment** | Linux/Ubuntu (Bash scripts & `nohup` process management) |
 
 ---
 
-## Repository Structure (key files)
+## 🎯 Project Overview
+This system is an end-to-end **Sales Order (SO) Platform** designed for Solvang. It manages the entire lifecycle of a sale—from product browsing and cart management to multi-level administrative approvals and final finance review.
 
-- `Sales_Order_Inventory_App.py` — main Streamlit application entrypoint
-- `db_manager.py` — SQLite models + database access layer
-- `notification_scheduler.py` — background scheduler (reminders / auto-cancel)
-- `products.csv`, `orders.csv`, `sales_order_LIST_OF_ACCOUNTS.csv` — CSV data files used by the app
-- `product_images/` — product image assets
-- `notification_enabled.txt` — global notification toggle persistence
-- `email_notifications.log` — email send attempt logs (app + scheduler)
-- `DEPLOYMENT_GUIDE_UBUNTU.md`, `QUICK_START.md`, `RUN_WITH_NOHUP.md` — deployment references
+### 🌟 High-Level Capabilities
+* **Dynamic Product Catalog:** Interactive inventory browsing with high-resolution image support.
+* **Complex Cart Logic:** SKU-level remarks, inventory checking, and seamless order creation.
+* **Automated Approval Workflow:** A 3-tier approval hierarchy (SGF → Admin L1 → Admin L2) ensuring corporate compliance.
+* **Smart Scheduling:** A custom background process (`notification_scheduler.py`) that monitors order age, sends 16-hour reminders, and auto-cancels expired booking requests.
 
 ---
 
-## Quick Start (Local)
+## 🚀 Key Professional Features
 
-### 1) Create and activate a virtual environment (recommended)
+### 📦 Order & Inventory Management
+* **Cart-to-Order Pipeline:** Built a robust shopping cart experience within the Streamlit framework.
+* **Data Synchronization:** Implemented a sync engine to pull real-time product data from **MS SQL Server** into the local SQLite instance.
+* **Attachment Engine:** Supports PDF and Image uploads for order documentation and financial proof.
 
-```powershell
-cd "c:\Users\Benedic Cater\SynologyDrive\Software Development\Python Codes\_App Sales Order\so_solvang"
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
+### 📧 Automated Notification System
+* **Gmail SMTP Integration:** Real-time email triggers for status updates and approvals.
+* **Admin Control Panel:** A "Notification Management" dashboard to toggle global alerts, manage CC lists, and audit send logs.
 
-### 2) Install dependencies
+### 💼 Finance & Admin Suite
+* **Audit Trails:** Detailed history tracking for every order status change.
+* **Review Actions:** Dedicated Finance module for bulk exports, filtering, and final transaction review.
 
-```powershell
+---
+
+## ⚙️ Development & Setup
+
+### Requirements
+- **Python 3.10+**
+- **ODBC Driver 18** (For optional SQL Server Sync)
+
+### Quick Start
+```bash
+# 1. Setup Environment
+python -m venv .venv
+source .venv/bin/activate  # .\.venv\Scripts\Activate.ps1 on Windows
+
+# 2. Install Dependencies
 pip install -r Requirements.txt
-```
 
-### 3) Run the app
-
-```powershell
+# 3. Launch App
 streamlit run Sales_Order_Inventory_App.py
 ```
 
----
+Background Scheduler
+To run the automated reminder and auto-cancel engine:
 
-## Email Notifications
-
-This app sends email via **Gmail SMTP over SSL** (`smtp.gmail.com:465`).
-
-### Send.txt (required for sending emails)
-
-The application reads credentials from `Send.txt` located in the app directory. Supported formats:
-
-**Option A (recommended):**
-- Line 1 = Gmail account (SMTP username)
-- Line 2 = Gmail App Password (SMTP password)
-
-**Option B:**
-- Line 1 only = Gmail App Password
-- In this case, `GMAIL_ACCOUNT` is used from `Sales_Order_Inventory_App.py`
-
-Example (DO NOT commit this file):
-```text
-your_email@gmail.com
-your_gmail_app_password_here
-```
-
-### Enable/Disable notifications
-
-Notifications can be toggled from the app’s **Notification Management** dialog (Super Admin). The state is persisted in:
-- `notification_enabled.txt`
-
----
-
-## Scheduler (Reminders / Auto-Cancel)
-
-`notification_scheduler.py` handles background checks such as:
-- Pending reminders (e.g., 16-hour reminders)
-- Booking request auto-cancel (e.g., 24-hour rule, depending on configuration)
-
-The scheduler respects the same notification toggle (`notification_enabled.txt`).
-
-Run manually (example):
-```powershell
+```Bash
 python notification_scheduler.py
 ```
+---
+## 🔒 Security & Secrets Management
+This repository is built with Security-First principles. Credentials and sensitive configuration are strictly separated from the logic:
 
-For Linux deployment, see:
-- `QUICK_START.md`
-- `DEPLOYMENT_GUIDE_UBUNTU.md`
+- **Credential Masking:** SMTP and DB secrets are managed via `Send.txt` or `.streamlit/secrets.toml`.
 
+- **Git Integrity:** All sensitive files are excluded via `.gitignore` to prevent accidental exposure of corporate assets.
 ---
 
-## SQL Server Product Sync (Optional)
+## 📜 License & Intellectual Property
+**Copyright (c) 2026 Benedic Cater / InnoGen Pharmaceuticals Inc. (Solvang)**
 
-The app includes a “Sync Products from SQL Server” feature that:
-- Connects using `pyodbc`
-- Pulls from a table you specify
-- Writes output to `products.csv`
+**All Rights Reserved.**
+This repository is published for **portfolio review and technical demonstration purposes only.**
 
-You must install the proper ODBC driver on the host.
+**Strict Restrictions:**
+- **No Reproduction:** No part of this code may be copied, modified, or distributed.
+- **Brand Protection:** Use of the "InnoGen" or "Solvang" name, branding, or logos is strictly prohibited.
+- **Data Privacy:** Use of any proprietary data or business logic contained herein for commercial or personal projects is strictly prohibited.
 
----
-
-## Data Storage
-
-- Primary storage is **SQLite**:
-  - `sales_order_inventory.db`
-- CSV files are also used for loading/migration and operational data depending on the workflow:
-  - `products.csv`, `orders.csv`, `users.csv` (migrated to SQLite on first run if present), etc.
-
----
-
-## Security / Secrets (IMPORTANT)
-
-Do **NOT** commit credentials to GitHub.
-
-These files must be local-only:
-- `.streamlit/secrets.toml`
-- `Send.txt`
-
-Recommended `.gitignore` entries:
-```gitignore
-.streamlit/secrets.toml
-Send.txt
-```
-
-If secrets were ever committed, treat them as compromised:
-- Rotate passwords/tokens immediately
-- Remove them from Git history using a history rewrite tool (e.g., `git filter-repo`)
-
----
-
-## Support / Maintenance Notes
-
-- For email-related issues, check:
-  - `email_notifications.log`
-  - Notification Management → Users Without Email / Send Log
-- For scheduler status, check:
-  - `notification_scheduler_heartbeat.txt` (if enabled in your deployment)
-
----
-
-## License
-
-### Copyright (c) 2026 Benedic Cater / InnoGen Pharmaceuticals Inc. (Solvang)
-
-### All Rights Reserved.
-
-This repository and its contents, including all code, assets, and data, are the sole property of the author. This code is made public for portfolio review and demonstration purposes only.
-
-### Restrictions:
-- You may not copy, modify, or distribute this code.
-- You may not use the "InnoGen" or "Solvang" name, branding, or logos for any purpose.
-- Use of the data contained within this repository for commercial or personal projects is strictly prohibited.
-
-For inquiries or permission requests, please contact the author.
+_For professional inquiries or permission requests, please contact Benedic Cater._
