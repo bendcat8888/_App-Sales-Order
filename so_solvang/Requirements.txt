@@ -1,0 +1,30 @@
+# Streamlit Application Dependencies
+# Generated for Sales_Order_Inventory_App.py
+
+# Core Framework
+streamlit>=1.28.0
+
+# Data Processing
+pandas>=1.5.0
+openpyxl>=3.1.0  # For Excel file support
+
+# Database Connectivity
+pyodbc>=4.0.39
+sqlalchemy>=2.0.0
+
+# Email
+# Note: smtplib and email are part of Python standard library
+
+# Image Processing
+Pillow>=10.0.0
+
+# Date/Time (datetime is part of standard library)
+# No additional package needed
+
+# Other standard library modules used:
+# - os (standard library)
+# - ast (standard library)
+# - base64 (standard library)
+
+# Optional: For better performance
+numpy>=1.24.0  # Often used with pandas
