@@ -159,3 +159,18 @@ If secrets were ever committed, treat them as compromised:
   - `notification_scheduler_heartbeat.txt` (if enabled in your deployment)
 
 ---
+
+## License
+
+### Copyright (c) 2026 Benedic Cater / InnoGen Pharmaceuticals Inc. (Solvang)
+
+### All Rights Reserved.
+
+This repository and its contents, including all code, assets, and data, are the sole property of the author. This code is made public for portfolio review and demonstration purposes only.
+
+### Restrictions:
+- You may not copy, modify, or distribute this code.
+- You may not use the "InnoGen" or "Solvang" name, branding, or logos for any purpose.
+- Use of the data contained within this repository for commercial or personal projects is strictly prohibited.
+
+For inquiries or permission requests, please contact the author.
